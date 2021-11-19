@@ -1,6 +1,6 @@
 # Harvard CS50 Class Content
 
-Coding challenges, notes, mock-ups, and minor projects done throughout HarvardX's CS50 class.
+Coding challenges, notes, mock-ups, and minor projects done throughout HarvardX's CS50 class. Please note that some exercises are modified for functionality due to CS50's IDE and other contraints.
 
 ## Major topics covered by CS50
 
