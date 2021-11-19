@@ -2,7 +2,7 @@
 
 Coding challenges, notes, mock-ups, and minor projects done throughout HarvardX's CS50 class.
 
-## Major CS50 topics
+## Major topics covered by CS50
 
 - Coding fundamentals in C (programming language)
 

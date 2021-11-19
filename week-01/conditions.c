@@ -17,4 +17,15 @@ int main(void)
   {
     printf("%i = %i\n", x, y);
   }
+
+  char answer[1] = "n";
+
+  if (answer == "y" || answer == "Y")
+  {
+    printf("Answer: %s, which means YES\n", answer);
+  }
+  else
+  {
+    printf("Answer: %s, which means NO\n", answer);
+  }
 }
