@@ -4,6 +4,7 @@
 
 // Points assigned to each letter of the alphabet
 int POINTS[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
+//             {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q , r, s, t, u, v, w, x, y, z};
 
 int compute_score(char *word);
 
@@ -21,23 +22,33 @@ int main(int argc, char *argv[])
   if (score1 > score2)
   {
     printf("Player 1 wins!\n");
-    return 1;
+    return 0;
   }
-  else if (score2 < score1)
+  else if (score1 < score2)
   {
     printf("Player 2 wins!\n");
-    return 1;
+    return 0;
   }
   else
   {
     printf("Tie!\n");
-    return 1;
+    return 0;
   }
 }
 
 int compute_score(char *word)
 {
+  int score = 0;
   // TODO: Compute and return score for string
-  printf("%s\n", word);
-  return 1;
+  for (int i = 0; i < strlen(word); i++)
+  {
+    // turn the characters to lowercase and subtract 97 from ascii integer to get character score position
+    int index = (int)tolower(word[i]) - 97;
+    if (index >= 0 && index < 25)
+    {
+      score += POINTS[index];
+      printf("%c: %i\n", word[i], POINTS[index]);
+    }
+  }
+  return score;
 }
