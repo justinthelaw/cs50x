@@ -87,7 +87,7 @@ void print_winner(void)
     int i = 0;
     printf("%s\n", candidates[i].name);
 
-    while (i < MAX)
+    while (i < candidate_count)
     {
         if (candidates[i].votes == candidates[i + 1].votes)
         {
@@ -132,7 +132,7 @@ void merge(int lowIndex, int midIndex, int highIndex)
         }
     }
 
-    // fill in the temo array from largest to smallest
+    // fill in temp array with remaining element
     while (i <= midIndex)
     {
         temp[k++] = candidates[i++];
