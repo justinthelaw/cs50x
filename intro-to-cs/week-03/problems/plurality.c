@@ -84,16 +84,22 @@ void print_winner(void)
 {
     merge_sort(0, candidate_count);
 
-    int i = 0;
-    printf("%s\n", candidates[i].name);
+    int maxVotes = 0;
 
-    while (i < candidate_count)
+    for (int i = 0; i < candidate_count; i++)
     {
-        if (candidates[i].votes == candidates[i + 1].votes)
+        if (maxVotes < candidates[i].votes)
         {
-            printf("%s\n", candidates[i + 1].name);
+            maxVotes = candidates[i].votes;
         }
-        i++;
+    }
+
+    for (int j = 0; j < candidate_count; j++)
+    {
+        if (candidates[j].votes == maxVotes)
+        {
+            printf("%s\n", candidates[j].name);
+        }
     }
 
     return;
