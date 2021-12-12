@@ -39,21 +39,23 @@ int main(int argc, char *argv[])
         fclose(output);
       }
 
-      if (count < 9)
+      if (count < 10)
       {
-        sprintf(filename, "00%i.jpg", count + 1);
+        sprintf(filename, "00%i.jpg", count);
       }
-      else if (count < 99)
+      else if (count < 100)
       {
-        sprintf(filename, "0%i.jpg", count + 1);
+        sprintf(filename, "0%i.jpg", count);
       }
       else
       {
-        sprintf(filename, "%i.jpg", count + 1);
+        sprintf(filename, "%i.jpg", count);
       }
+
       output = fopen(filename, "w");
       count++;
     }
+
     if (count != 0)
     {
       fwrite(&header, BLOCK, 1, output);
