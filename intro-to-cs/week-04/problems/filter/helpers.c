@@ -1,6 +1,7 @@
 #include "helpers.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -9,11 +10,11 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
   {
     for (int j = 0; j < width; j++)
     {
-      BYTE blue = image[i][j].rgbtBlue;
-      BYTE red = image[i][j].rgbtRed;
-      BYTE green = image[i][j].rgbtGreen;
+      float blue = image[i][j].rgbtBlue;
+      float red = image[i][j].rgbtRed;
+      float green = image[i][j].rgbtGreen;
 
-      BYTE gray = (blue + red + green) / 3;
+      float gray = round((blue + red + green) / 3);
 
       image[i][j].rgbtBlue = gray;
       image[i][j].rgbtRed = gray;
@@ -34,9 +35,9 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
       BYTE red = image[i][j].rgbtRed;
       BYTE green = image[i][j].rgbtGreen;
 
-      float sepiaRed = .393 * red + .769 * green + .189 * blue;
-      float sepiaGreen = .349 * red + .686 * green + .168 * blue;
-      float sepiaBlue = .272 * red + .534 * green + .131 * blue;
+      float sepiaRed = round(.393 * red + .769 * green + .189 * blue);
+      float sepiaGreen = round(.349 * red + .686 * green + .168 * blue);
+      float sepiaBlue = round(.272 * red + .534 * green + .131 * blue);
 
       if ((int)sepiaRed > 255)
       {
@@ -78,5 +79,48 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+  RGBTRIPLE copy[height][width];
+  for (int i = 0; i < height; i++)
+  {
+    for (int j = 0; j < width; j++)
+    {
+      copy[i][j] = image[i][j];
+    }
+  }
+
+  for (int i = 0; i < height; i++)
+  {
+    for (int j = 0; j < width; j++)
+    {
+      float totalRed;
+      float totalBlue;
+      float totalGreen;
+      int pixelCount;
+      totalRed = totalBlue = totalGreen = pixelCount = 0;
+
+      for (int h = -1; h < 2; h++)
+      {
+        for (int w = -1; w < 2; w++)
+        {
+          if (i + h < 0 || i + h >= height)
+          {
+            continue;
+          }
+          if (j + w < 0 || j + w >= width)
+          {
+            continue;
+          }
+          totalRed += copy[i + h][j + w].rgbtRed;
+          totalBlue += copy[i + h][j + w].rgbtBlue;
+          totalGreen += copy[i + h][j + w].rgbtGreen;
+          pixelCount++;
+        }
+      }
+
+      image[i][j].rgbtRed = round(totalRed / pixelCount);
+      image[i][j].rgbtGreen = round(totalGreen / pixelCount);
+      image[i][j].rgbtBlue = round(totalBlue / pixelCount);
+    }
+  }
   return;
 }
