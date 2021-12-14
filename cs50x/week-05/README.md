@@ -4,4 +4,4 @@ Each file can be run using the debugger as long as the `.vscode/tasks.json` is m
 
 # Problem #1
 
-The Makefile will generate all the correct binaries and links for you using gcc. After running `make speller`, you can run `./speller <dictionary> <text file>` where dictionary is either `small` or `large` and text file is the file of text you would like to run a spell check on.
+The Makefile will generate all the correct binaries and links for you using gcc. After running `rm -rf dictionary.o speller speller.o && make speller`, you can run `./speller <dictionary> <text file>` where dictionary is either `small` or `large` and text file is the file of text you would like to run a spell check on.
