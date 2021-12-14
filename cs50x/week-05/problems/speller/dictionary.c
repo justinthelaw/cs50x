@@ -9,7 +9,9 @@
 
 #include "dictionary.h"
 
+// max length of words
 #define LENGTH 45
+// hash table rows based on letters of alphabet
 #define N 26
 
 // Represents a node in a hash table
@@ -28,24 +30,15 @@ node *table[N];
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    int length = strlen(word);
-    char *copy = malloc(length);
-
-    for (int i = 0; i <= length; i++)
-    {
-        copy[i] = word[i];
-    }
-
-    int tableRow = hash(copy);
+    int tableRow = hash(word);
     node *cursor = table[tableRow];
 
     while (cursor != NULL)
     {
-        if (strcasecmp(copy, cursor->word) == 0)
+        if (strcasecmp(word, cursor->word) == 0)
         {
             return true;
         }
-
         cursor = cursor->next;
     }
     return false;
