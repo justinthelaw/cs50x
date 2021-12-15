@@ -5,6 +5,12 @@ Coding challenges, notes, mock-ups, and minor projects done throughout HarvardX'
 ## Major topics covered by CS50
 
 - Coding fundamentals in C (programming language)
+  - Types and declarations
+  - Algorithms
+  - Memory
+  - Data Structures
+- Coding fundamentals in Python
+  - All C (programming language) concepts refactored
 
 ## Instructions
 
