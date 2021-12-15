@@ -1,6 +1,7 @@
 from cs50 import get_string
 
 count = 1
+max = int(input("Pick a number: "))
 blocks = "#"
 name = get_string("What is your name? ")
 
@@ -13,7 +14,7 @@ elif name == "hello":
 else:
     print("Welcome to Justin's week-06 cs50x repository!")
 
-while count <= 10:
+while count <= max:
     for i in range(count):
         print(blocks)
     blocks += "#"
