@@ -10,7 +10,8 @@ Coding challenges, notes, mock-ups, and minor projects done throughout HarvardX'
   - Memory
   - Data Structures
 - Coding fundamentals in Python
-  - All C (programming language) concepts refactored
+  - All C (programming language) concepts
+- Structured Query Language
 
 ## Instructions
 
