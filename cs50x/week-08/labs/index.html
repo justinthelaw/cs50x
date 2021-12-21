@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+    <title>Trivia!</title>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // TODO: Add code to check answers to questions
+        let multipleChoice = document.querySelectorAll(
+          ".multiple-choice-button"
+        );
+        let message = document.querySelector(".multiple-choice-message");
+        multipleChoice.forEach((button) => {
+          button.addEventListener(
+            "click",
+            function () {
+              const reset = () =>
+                multipleChoice.forEach((button) => {
+                  button.style.backgroundColor = "#d9edff";
+                  button.style.color = "black";
+                });
+              const data = button.innerText;
+              if (data === "*SHRIEKING*") {
+                reset();
+                message.innerText = "Correct!";
+                button.style.color = "white";
+                button.style.backgroundColor = "green";
+              } else {
+                reset();
+                message.innerText = "Incorrect!";
+                button.style.color = "white";
+                button.style.backgroundColor = "red";
+              }
+            },
+            false
+          );
+        });
+      });
+
+      const handleSubmit = () => {
+        let text = document.getElementById("text-input").value;
+        let textMessage = document.querySelector(".text-message");
+        if (text.toUpperCase().trim() === "JUSTIN") {
+          textMessage.innerText = "Correct!";
+        } else {
+          textMessage.innerText = "Incorrect!";
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Trivia!</h1>
+    </div>
+
+    <div class="container">
+      <div class="section">
+        <h2>Part 1: Multiple Choice</h2>
+        <hr />
+
+        <!-- TODO: Add multiple choice question here -->
+        <h3>What does the fox say?</h3>
+        <div id="multiple-choice">
+          <button class="multiple-choice-button">Oink</button>
+          <button class="multiple-choice-button">Woof</button>
+          <button class="multiple-choice-button">Meow</button>
+          <button class="multiple-choice-button">*SHRIEKING*</button>
+          <button class="multiple-choice-button">Roar</button>
+        </div>
+        <br />
+        <span class="multiple-choice-message"></span>
+        <hr />
+
+        <!-- TODO: Add free response question here -->
+        <h3>What is the first name of the creator of this webpage?</h3>
+        <form onsubmit="handleSubmit(); return false" id="text-form">
+          <input id="text-input" type="text" placeholder="Name..." />
+          <button type="submit" id="text-button">Check Answer</button>
+        </form>
+        <br />
+        <span class="text-message"></span>
+      </div>
+    </div>
+  </body>
+</html>

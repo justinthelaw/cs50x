@@ -1,0 +1,48 @@
+.navbar-brand {
+  font-weight: 600;
+  font-size: 2em;
+}
+
+.jumbotron {
+  background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.nitel.it%2Fwp-content%2Fuploads%2F2018%2F11%2Fearth-view-from-satellite-space-systems-cover.jpg&f=1&nofb=1);
+  color: white;
+  size: 100%;
+  filter: drop-shadow(2px 2px 2px rgb(119, 119, 119));
+}
+
+.jumbotron h1 {
+  font-weight: 600;
+  filter: drop-shadow(1px 1px 1px black);
+}
+
+.jumbotron p {
+  filter: drop-shadow(1px 1px 1px black);
+}
+
+.card {
+  margin: 40px;
+}
+
+.badge {
+  position: relative;
+  left: 5px;
+  bottom: 5px;
+  font-size: 70%;
+}
+
+.slide-container {
+  filter: drop-shadow(2px 5px 2px rgb(119, 119, 119));
+}
+
+.d-block {
+  height: 700px;
+  object-fit: cover;
+}
+
+.carousel-item {
+  box-shadow: 0 0 500px rgba(0, 0, 0, 0.9) inset;
+}
+
+.slide-text {
+  filter: drop-shadow(1px 1px 5px black);
+}
