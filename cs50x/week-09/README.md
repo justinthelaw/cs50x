@@ -1,0 +1,1 @@
+# For each `.py` file, run `export FLASK_APP=<filename>.py && export FLASK_DEBUG=1` and then `flask run --port <pot number>` in the command line to run the application at a specific port with hot-pushes of code changes
