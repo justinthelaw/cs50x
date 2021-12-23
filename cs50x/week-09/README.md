@@ -1,1 +1,5 @@
-# For each `.py` file, run `export FLASK_APP=<filename>.py && export FLASK_DEBUG=1` and then `flask run --port <pot number>` in the command line to run the application at a specific port with hot-pushes of code changes
+# For each `.py` file, run `python3 -m pip install` and then `export FLASK_APP=<filename>.py && export FLASK_DEBUG=1 && flask run --port <pot number>` in the command line to run the application
+
+## Problem #1
+
+An 'export API_KEY=<IEX key>` will need to be run in order to grab quote data from IEX's API.
