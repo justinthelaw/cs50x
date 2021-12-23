@@ -46,7 +46,21 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+
+    userID = session["user_id"]
+    user = db.execute("SELECT username FROM users WHERE id = ?", userID)[0]["username"]
+    portfolio = [
+        {
+            "symbol": "NFLX",
+            "companyName": "Netflix, Inc.",
+            "latestPrice": 318.83,
+            "shares": 1,
+            "total": 0,
+        }
+    ]
+    for ticker in portfolio:
+        ticker["total"] = round(ticker["shares"] * ticker["latestPrice"], 2)
+    return render_template("home.html", user=user, portfolio=portfolio)
 
 
 @app.route("/buy", methods=["GET", "POST"])

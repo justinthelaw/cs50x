@@ -42,3 +42,33 @@ main img {
   display: inline-block;
   width: auto;
 }
+
+table {
+  background-color: transparent;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: lightgray;
+}
+
+tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: black;
+}
+
+.text-end {
+  text-align: right !important;
+}
+
+.end-header {
+  font-weight: 500;
+}
