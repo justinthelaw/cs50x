@@ -1,10 +1,12 @@
 import os
+import uuid
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
+from werkzeug.sansio.response import Response
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, lookup, usd
@@ -44,37 +46,112 @@ if not os.environ.get("API_KEY"):
 
 @app.route("/")
 @login_required
-def index():
+def index(success=None):
     """Show portfolio of stocks"""
 
     userID = session["user_id"]
-    user = db.execute("SELECT username FROM users WHERE id = ?", userID)[0]["username"]
-    portfolio = [
-        {
-            "symbol": "NFLX",
-            "companyName": "Netflix, Inc.",
-            "latestPrice": 318.83,
-            "shares": 1,
-            "total": 0,
-        }
-    ]
+    user = db.execute("SELECT * FROM users WHERE id = ?", userID)[0]
+    portfolio = db.execute("SELECT * FROM stocks WHERE userID = ?", userID)
+    if len(portfolio) < 1:
+        portfolio = [
+            # {
+            #     "symbol": "NFLX",
+            #     "companyName": "Netflix, Inc.",
+            #     "latestPrice": 318.83,
+            #     "shares": 1,
+            # }
+        ]
+    total = user["cash"]
     for ticker in portfolio:
-        ticker["total"] = round(ticker["shares"] * ticker["latestPrice"], 2)
-    return render_template("home.html", user=user, portfolio=portfolio)
+        latestPrice = lookup(ticker["symbol"])["price"]
+        ticker["latestPrice"] = latestPrice
+        ticker["total"] = round(ticker["shares"] * latestPrice, 2)
+        total += ticker["total"]
+    return render_template(
+        "home.html",
+        user=user["username"],
+        portfolio=portfolio,
+        cash=user["cash"],
+        total=total,
+        success=success,
+    )
 
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+        if symbol and shares:
+            # necessary data to lookup quote, buy stock, and modify the users and stocks tables
+            stock = lookup(symbol)
+            symbol = stock["symbol"]
+            companyName = stock["name"]
+            latestPrice = stock["price"]
+            userID = session["user_id"]
+            cost = round(latestPrice, 2) * float(shares)
+            currentCash = db.execute("SELECT cash FROM users WHERE id = ?", userID)[0][
+                "cash"
+            ]
+            alreadyOwns = db.execute(
+                "SELECT * FROM stocks WHERE userID = ? AND symbol = ?", userID, symbol
+            )
+            if currentCash >= cost:
+                if len(alreadyOwns) == 0:
+                    # execute insertion of stock into stocks table based on userID and user input
+                    db.execute(
+                        "INSERT INTO stocks (symbol, companyName, shares, userID) VALUES(?, ?, ?, ?)",
+                        symbol,
+                        companyName,
+                        shares,
+                        userID,
+                    )
+                else:
+                    db.execute(
+                        "UPDATE stocks SET shares = ? WHERE userID = ? AND symbol = ?",
+                        alreadyOwns[0]["shares"] + int(shares),
+                        userID,
+                        symbol,
+                    )
+                # update user cash amount
+                db.execute(
+                    "UPDATE users SET cash = ? WHERE id = ?",
+                    currentCash - cost,
+                    userID,
+                )
+                return index(f"Success! Bought {shares} shares of {symbol}.")
+            else:
+                return render_template(
+                    "buy.html",
+                    error=f"Lacking {usd(cost - currentCash)} to buy {shares} shares of {symbol}.",
+                )
+        else:
+            return render_template(
+                "buy.html", error=f"Please provide a symbol and number of shares."
+            )
+    else:
+        return render_template("buy.html")
 
 
 @app.route("/history")
 @login_required
 def history():
     """Show history of transactions"""
-    return apology("TODO")
+    userID = session["user_id"]
+    user = db.execute("SELECT * FROM users WHERE id = ?", userID)[0]
+    history = db.execute("SELECT * FROM history WHERE userID = ?", userID)
+    total = user["cash"]
+    for ticker in history:
+        latestPrice = lookup(ticker["symbol"])["price"]
+        ticker["latestPrice"] = latestPrice
+        ticker["total"] = round(ticker["shares"] * latestPrice, 2)
+    return render_template(
+        "history.html",
+        user=user["username"],
+        history=history,
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -132,7 +209,21 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        result = lookup(symbol)
+        if not symbol:
+            return render_template("quote.html", error="Please input a symbol.")
+        elif result:
+            return render_template("quoted.html", result=result)
+        else:
+            return render_template(
+                "quote.html",
+                error="Search failed, please try looking up a different symbol.",
+            )
+
+    else:
+        return render_template("quote.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -180,7 +271,53 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+        if symbol and shares:
+            # necessary data to lookup quote, buy stock, and modify the users and stocks tables
+            stock = lookup(symbol)
+            symbol = stock["symbol"]
+            latestPrice = stock["price"]
+            userID = session["user_id"]
+            cost = round(latestPrice, 2) * float(shares)
+            currentCash = db.execute("SELECT cash FROM users WHERE id = ?", userID)[0][
+                "cash"
+            ]
+            alreadyOwns = db.execute(
+                "SELECT * FROM stocks WHERE userID = ? AND symbol = ?", userID, symbol
+            )
+            if alreadyOwns:
+                db.execute(
+                    "UPDATE stocks SET shares = ? WHERE userID = ? AND symbol = ?",
+                    alreadyOwns[0]["shares"] - int(shares),
+                    userID,
+                    symbol,
+                )
+                db.execute("DELETE FROM stocks WHERE shares = 0")
+                # update user cash amount
+                db.execute(
+                    "UPDATE users SET cash = ? WHERE id = ?",
+                    currentCash + cost,
+                    userID,
+                )
+                return index(f"Success! Sold {shares} shares of {symbol}.")
+            else:
+                return render_template(
+                    "sell.html",
+                    error=f"You do not own {shares} of {symbol}. Please try again.",
+                )
+        else:
+            return render_template(
+                "sell.html", error=f"Please provide a symbol and number of shares."
+            )
+    else:
+        symbols = []
+        userID = session["user_id"]
+        portfolio = db.execute("SELECT * FROM stocks WHERE userID = ?", userID)
+        for ticker in portfolio:
+            symbols.append(ticker["symbol"])
+        return render_template("sell.html", symbols=symbols)
 
 
 def errorhandler(e):

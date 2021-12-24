@@ -2,6 +2,10 @@
 main %}
 <h2>{{ user }}'s Portfolio</h2>
 <br />
+{% if success %}
+<div class="alert alert-success" role="alert">{{ success }}</div>
+<br />
+{% endif %}
 <table class="table tablestriped">
   <thead>
     <tr>
@@ -18,19 +22,19 @@ main %}
       <td class="text-start">{{ ticker.symbol }}</td>
       <td class="text-start">{{ ticker.companyName }}</td>
       <td class="text-end">{{ ticker.shares }}</td>
-      <td class="text-end">{{ ticker.latestPrice }}</td>
-      <td class="text-end">{{ ticker.total }}</td>
+      <td class="text-end">{{ ticker.latestPrice | usd }}</td>
+      <td class="text-end">{{ ticker.total | usd }}</td>
     </tr>
     {% endfor %}
   </tbody>
   <tfoot>
     <tr>
       <td class="border-0 fw-bold text-end end-header" colspan="4">Cash</td>
-      <td class="border-0 text-end">{{ cash }}</td>
+      <td class="border-0 text-end">{{ cash | usd }}</td>
     </tr>
     <tr>
       <td class="border-0 fw-bold text-end end-header" colspan="4">TOTAL</td>
-      <td class="border-0 w-bold text-end">{{ portfolioValue }}</td>
+      <td class="border-0 w-bold text-end">{{ total | usd }}</td>
     </tr>
   </tfoot>
 </table>

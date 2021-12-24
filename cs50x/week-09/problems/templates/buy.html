@@ -1,0 +1,63 @@
+{% extends "layout.html" %} {% block title %} Buy {% endblock %} {% block main
+%}
+<script>
+  function onSubmit() {
+    let button = document.getElementById("submit");
+    button.style.display = "none";
+
+    let shares = document.getElementById("shares").value;
+    let symbol = document.getElementById("symbol").value;
+    let confirmButton =
+      '<button class="btn btn-primary" id="submit" onclick="onSubmit(); return false">Submit</button>';
+    let warning = `<div class="alert alert-danger" role="alert">Please provide a symbol and number of shares.</div>`;
+
+    if (shares && symbol) {
+      confirmButton =
+        '<button class="btn btn-primary" id="submit" type="submit">Confirm</button>';
+      warning = `<div class="alert alert-warning" role="alert">Are you sure you want to buy ${shares} shares of ${symbol}?</div>`;
+    }
+    document.getElementById("button-area").innerHTML = confirmButton;
+    document.getElementById("warning-area").innerHTML = warning;
+  }
+</script>
+<form action="/buy" method="post">
+  <div class="form-group">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control"
+      name="symbol"
+      id="symbol"
+      placeholder="Symbol"
+      type="text"
+    />
+  </div>
+  <div class="form-group">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control"
+      name="shares"
+      id="shares"
+      placeholder="Shares"
+      type="number"
+      step="1"
+      min="1"
+    />
+  </div>
+  <span id="button-area">
+    <button
+      class="btn btn-primary"
+      id="submit"
+      onclick="onSubmit(); return false"
+    >
+      Submit
+    </button>
+  </span>
+</form>
+<br />
+<span id="warning-area"></span>
+{% if error %}
+<br />
+<div class="alert alert-danger" role="alert">{{ error }}</div>
+{% endif %}{% endblock %}
