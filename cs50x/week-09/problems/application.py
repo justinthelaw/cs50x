@@ -121,6 +121,15 @@ def buy():
                     currentCash - cost,
                     userID,
                 )
+                db.execute(
+                    "INSERT INTO history (action, symbol, companyName, latestPrice, userID, shares) VALUES(?, ?, ?, ?, ?, ?)",
+                    "BUY",
+                    symbol,
+                    companyName,
+                    latestPrice,
+                    userID,
+                    shares,
+                )
                 return index(f"Success! Bought {shares} shares of {symbol}.")
             else:
                 return render_template(
@@ -142,7 +151,6 @@ def history():
     userID = session["user_id"]
     user = db.execute("SELECT * FROM users WHERE id = ?", userID)[0]
     history = db.execute("SELECT * FROM history WHERE userID = ?", userID)
-    total = user["cash"]
     for ticker in history:
         latestPrice = lookup(ticker["symbol"])["price"]
         ticker["latestPrice"] = latestPrice
@@ -279,6 +287,7 @@ def sell():
             stock = lookup(symbol)
             symbol = stock["symbol"]
             latestPrice = stock["price"]
+            companyName = stock["name"]
             userID = session["user_id"]
             cost = round(latestPrice, 2) * float(shares)
             currentCash = db.execute("SELECT cash FROM users WHERE id = ?", userID)[0][
@@ -300,6 +309,15 @@ def sell():
                     "UPDATE users SET cash = ? WHERE id = ?",
                     currentCash + cost,
                     userID,
+                )
+                db.execute(
+                    "INSERT INTO history (action, symbol, companyName, latestPrice, userID, shares) VALUES(?, ?, ?, ?, ?, ?)",
+                    "SELL",
+                    symbol,
+                    companyName,
+                    latestPrice,
+                    userID,
+                    shares,
                 )
                 return index(f"Success! Sold {shares} shares of {symbol}.")
             else:
