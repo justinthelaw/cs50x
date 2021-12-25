@@ -1,4 +1,4 @@
-# For each `.py` file, run `python3 -m pip install` and then `export FLASK_APP=<filename>.py && export FLASK_DEBUG=1 && flask run --port <pot number>` in the command line to run the application
+# For each `.py` file, run `python3 -m pip install` and then `export FLASK_APP=<filename>.py && export FLASK_DEBUG=1 && flask run --port <port number>` in the command line to run the application
 
 **NOTE**: The `.db` files in this repository do not store any actual sensitive or personally identifiable information
 
