@@ -1,6 +1,0 @@
-{
-  "files.associations": {
-    "dictionary.h": "c"
-  },
-  "python.formatting.provider": "black"
-}
