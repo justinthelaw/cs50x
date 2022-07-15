@@ -1,0 +1,18 @@
+img {
+  margin: -2.5px 15px -2.5px 5px;
+}
+
+.navbar {
+  filter: drop-shadow(2px 2px 5px rgba(15, 15, 15, 0.5));
+  z-index: 1;
+}
+
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link-wrapper {
+  margin: 10px;
+}

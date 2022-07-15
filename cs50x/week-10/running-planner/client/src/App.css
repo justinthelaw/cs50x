@@ -1,0 +1,29 @@
+.link {
+  text-decoration: none;
+  color: rgb(200, 200, 200);
+}
+
+.spinner-border {
+  border-width: 0.33em;
+  width: 5rem;
+  height: 5rem;
+}
+
+body {
+  background-color: #1c1c1c;
+  height: 100%;
+  color: white;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #1c1c1c;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.75);
+  border-radius: 3.5px;
+}

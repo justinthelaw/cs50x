@@ -1,0 +1,65 @@
+.jumbotron {
+  padding-top: 30px;
+  max-width: 95%;
+  padding-bottom: 30px;
+}
+
+.jumbo-background {
+  background-color: rgba(15, 15, 15, 0.6);
+  color: white;
+  filter: drop-shadow(2px 2px 5px rgba(15, 15, 15, 0.5));
+}
+
+.jumbo-text {
+  filter: drop-shadow(5px 5px 5px rgb(0, 0, 0));
+}
+
+.jumbo-subtext {
+  filter: drop-shadow(5px 5px 5px rgb(0, 0, 0));
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.unregistered-buttons {
+  margin: 0px 10vw 0px 10vw;
+  padding-top: 10px;
+}
+
+.button-break-large {
+  padding-right: 10px;
+}
+
+@media (min-width: 1200px) {
+  .jumbo-subtext {
+    font-size: 30px;
+  }
+  .buttons {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 992px) {
+  .jumbo-subtext {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .jumbo-subtext {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 479px) {
+  .jumbo-subtext {
+    font-size: 20px;
+  }
+  .unregistered-buttons {
+    margin: 0px;
+  }
+}

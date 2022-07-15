@@ -1,0 +1,37 @@
+.register {
+  padding: 70px 50px;
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.login {
+  padding: 70px 50px;
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.forbidden {
+  padding: 30px 50px;
+  margin: 0 auto;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-top: 10px;
+}
+
+.button {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.alert {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.access-forbidden {
+  text-align: center;
+}
